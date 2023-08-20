@@ -5,8 +5,8 @@
     </div>
     <nav class="nav">
       <NuxtLink :to="{ name: 'search' }">Search</NuxtLink>
-      <NuxtLink to="/">Pokemon</NuxtLink>
-      <NuxtLink to="/about">About</NuxtLink>
+      <NuxtLink :to="{ name: 'index' }">Pokemon</NuxtLink>
+      <NuxtLink>About</NuxtLink>
     </nav>
     <div class="burgerMenu">
       <Icon name="iconamoon:menu-burger-horizontal-bold" color="white"></Icon>
@@ -15,7 +15,6 @@
     <div class="content">
       <slot />
     </div>
-
     <div class="empty"></div>
     <div class="logo"></div>
     <nav class="nav2">
