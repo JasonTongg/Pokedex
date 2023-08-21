@@ -28,12 +28,23 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useStore } from "vuex";
+
+const store = useStore();
+
+const color = computed(() => {
+  return store.getters.getDetailColor;
+});
+
+const fontColor = computed(() => {
+  return store.getters.getDetailColor === "white" ? "black" : "white";
+});
+</script>
 
 <style lang="scss">
 .layoutContainer {
   min-height: 100vh;
-  width: 100vw;
   background-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0.97),
@@ -44,6 +55,7 @@
   display: grid;
   grid-template-columns: 100px 1fr 100px;
   grid-template-rows: 70px 1fr 70px;
+  overflow-x: hidden;
 
   .logo,
   .nav,
@@ -53,7 +65,6 @@
   .nav2 {
     width: 100%;
     height: 100%;
-    // background-color: red;
     border: 1px solid rgb(62, 62, 62);
   }
 
@@ -77,10 +88,11 @@
       letter-spacing: 8px;
       text-decoration: none;
       color: white;
+      transition: all 0.5s linear;
     }
 
     a.router-link-active {
-      border-bottom: 1px solid rgb(101, 101, 101);
+      border-bottom: 1px solid v-bind(color);
     }
   }
 
@@ -93,7 +105,13 @@
 
     a.router-link-active {
       border: none;
-      background-color: rgb(101, 101, 101);
+      background-image: linear-gradient(
+          to bottom,
+          rgb(rgb(156, 156, 156), 0.4),
+          rgb(rgb(156, 156, 156), 0.4)
+        ),
+        linear-gradient(to bottom, v-bind(color), v-bind(color));
+      color: v-bind(fontColor);
     }
   }
 

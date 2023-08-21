@@ -10,7 +10,7 @@
         @click="changeDetail(pokemon.id)"
         :key="index"
       >
-        <h2>{{ pokemon.name }}</h2>
+        <h2>{{ pokemon.name.split("-").join(" ") }}</h2>
         <img
           :src="pokemon.sprites?.other['official-artwork'].front_default"
           alt=""
@@ -72,6 +72,7 @@ const changeDetail = (id: number) => {
   justify-content: center;
   align-items: center;
   width: 100%;
+  color: white;
 
   form {
     width: 100%;
@@ -83,6 +84,7 @@ const changeDetail = (id: number) => {
       outline: none;
       height: 50px;
       font-size: 1.2rem;
+      color: white;
     }
   }
 
@@ -102,9 +104,16 @@ const changeDetail = (id: number) => {
       border-radius: 20px;
       padding: 1rem;
       cursor: pointer;
+      gap: 1rem;
+      max-width: 200px;
 
       img {
         width: 80%;
+      }
+
+      h2 {
+        text-align: center;
+        text-transform: capitalize;
       }
     }
   }

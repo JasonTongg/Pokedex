@@ -2,13 +2,15 @@
   <div class="detailContainer" v-if="detailPokemon!! && detailSpecies!!">
     <div class="left">
       <div class="profile">
-        <h1>{{ detailPokemon.name }}</h1>
-        <!-- <h3>Habitat: {{ detailSpecies.habitat.name }}</h3> -->
+        <h1>{{ detailPokemon?.name?.split("-")?.join(" ") }}</h1>
+        <h3 v-if="detailSpecies?.habitat?.name">
+          Habitat: {{ detailSpecies?.habitat?.name }}
+        </h3>
         <h3>
           Type:
           <span v-for="(type, index) in detailPokemon.types" :key="index">
             {{
-              index + 1 === detailPokemon.types.length
+              index + 1 === detailPokemon.types?.length
                 ? type.type.name
                 : type.type.name + " - "
             }}</span
@@ -26,14 +28,13 @@
             class="bar"
             :style="{
               width: stat.base_stat > 100 ? 100 + '%' : stat.base_stat + '%',
-              backgroundColor: detailSpecies.color.name,
             }"
           ></div>
         </div>
       </div>
     </div>
     <div class="pokemon">
-      <Icon name="arcticons:pokemongo" />
+      <Icon name="arcticons:pokemongo" :color="color" />
       <img
         :src="detailPokemon.sprites?.other['official-artwork'].front_default"
         alt=""
@@ -46,18 +47,12 @@
           class="variety"
           v-for="(variety, index) in detailSpecies.varieties"
           :key="index"
+          v-if="detailSpecies?.varieties?.length > 0"
         >
           <h3>{{ variety.pokemon.name.split("-").join(" ") }}</h3>
-          <button
-            @click="changeDetail(variety.pokemon.url)"
-            :style="{
-              color: detailSpecies?.color?.name,
-              borderColor: detailSpecies?.color?.name,
-            }"
-          >
-            See Detail
-          </button>
+          <button @click="changeDetail(variety.pokemon.url)">See Detail</button>
         </div>
+        <p v-else>No Other Varieties</p>
       </div>
     </div>
   </div>
@@ -68,6 +63,7 @@ import { useStore } from "vuex";
 
 const store = useStore();
 
+store.commit("setEvolutionPokemon", []);
 store.dispatch("getDetailPokemon");
 
 const detailPokemon = computed(() => {
@@ -81,6 +77,10 @@ const detailSpecies = computed(() => {
 const changeDetail = (url: string) => {
   store.dispatch("getDetailPokemon", url);
 };
+
+const color = computed(() => {
+  return store.getters.getDetailColor;
+});
 </script>
 
 <style lang="scss">
@@ -91,6 +91,7 @@ const changeDetail = (url: string) => {
   width: 100%;
   height: 100%;
   gap: 1rem;
+  color: white;
 
   & > * {
     width: 100%;
@@ -123,12 +124,13 @@ const changeDetail = (url: string) => {
         }
 
         button {
-          border: 1px solid;
+          border: 1px solid v-bind(color);
           outline: none;
           cursor: pointer;
           border-radius: 200px;
           padding: 0.3rem 0.5rem;
           background-color: transparent;
+          color: v-bind(color);
         }
       }
     }
@@ -167,6 +169,11 @@ const changeDetail = (url: string) => {
           height: 8px;
           border-radius: 200px;
           opacity: 0.3;
+          background-image: linear-gradient(
+            to bottom,
+            v-bind(color),
+            v-bind(color)
+          );
         }
       }
     }
@@ -183,6 +190,8 @@ const changeDetail = (url: string) => {
 
       h1 {
         font-size: 3rem;
+        text-align: center;
+        text-transform: capitalize;
       }
 
       & > * {
