@@ -7,12 +7,25 @@
         v-for="(pokemon, index) in evolution"
         :key="index"
         @click="changeDetail(pokemon?.id)"
+        v-if="evolution.length > 0"
       >
         <h2>{{ pokemon?.name?.split("-")?.join(" ") }}</h2>
         <div class="image">
           <Icon name="arcticons:pokemongo" :color="color" />
           <img
             :src="pokemon.sprites?.other['official-artwork'].front_default"
+            alt=""
+          />
+        </div>
+      </div>
+      <div v-else class="pokemon">
+        <h2>{{ pokemonDetail?.name?.split("-")?.join(" ") }}</h2>
+        <div class="image">
+          <Icon name="arcticons:pokemongo" :color="color" />
+          <img
+            :src="
+              pokemonDetail.sprites?.other['official-artwork'].front_default
+            "
             alt=""
           />
         </div>
@@ -38,6 +51,10 @@ const color = computed(() => {
   return store.getters.getDetailColor;
 });
 
+const pokemonDetail = computed(() => {
+  return store.getters.getDetailPokemon;
+});
+
 const changeDetail = (id: number) => {
   store.commit("setDetail", id);
   store.dispatch("getDetailPokemon");
@@ -56,10 +73,14 @@ const changeDetail = (id: number) => {
   padding: 2rem;
   width: 100%;
 
+  h1 {
+    text-align: center;
+  }
+
   .pokemons {
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1rem;
     height: 100%;
 
@@ -82,11 +103,12 @@ const changeDetail = (id: number) => {
         svg {
           font-size: 20rem;
           opacity: 0.2;
+          height: auto;
         }
 
         img {
           width: 80%;
-          max-width: 400px;
+          max-width: 300px;
           position: absolute;
           top: 50%;
           left: 50%;

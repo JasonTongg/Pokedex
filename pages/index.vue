@@ -23,7 +23,16 @@
           v-for="(stat, index) in detailPokemon.stats"
           :key="index"
         >
-          <p>{{ stat.stat.name }}: {{ stat.base_stat }}</p>
+          <p>
+            {{
+              stat?.stat?.name?.split("-")?.join(" ") === "special attack"
+                ? "SP Attack"
+                : stat?.stat?.name?.split("-")?.join(" ") === "special defense"
+                ? "SP Defence"
+                : stat?.stat?.name?.split("-")?.join(" ")
+            }}:
+            {{ stat.base_stat }}
+          </p>
           <div
             class="bar"
             :style="{
@@ -45,7 +54,7 @@
         <h1>Varieties</h1>
         <div
           class="variety"
-          v-for="(variety, index) in detailSpecies.varieties"
+          v-for="(variety, index) in detailSpecies.varieties.slice(0, 5)"
           :key="index"
           v-if="detailSpecies?.varieties?.length > 0"
         >
@@ -86,12 +95,16 @@ const color = computed(() => {
 <style lang="scss">
 .detailContainer {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   padding: 1rem;
   width: 100%;
   height: 100%;
   gap: 1rem;
   color: white;
+
+  @media only screen and (max-width: 360px) {
+    gap: 0;
+  }
 
   & > * {
     width: 100%;
@@ -104,6 +117,10 @@ const color = computed(() => {
     align-items: center;
     justify-content: space-around;
     width: 100%;
+
+    @media only screen and (max-width: 1164px) {
+      grid-column: 1/-1;
+    }
 
     .varieties {
       display: flex;
@@ -144,6 +161,7 @@ const color = computed(() => {
     width: 100%;
     height: 100%;
     padding: 1rem;
+    gap: 2rem;
 
     .stats {
       display: flex;

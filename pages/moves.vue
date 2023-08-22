@@ -65,7 +65,7 @@ const upLimit = () => {
 .movesContainer {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 2rem;
   width: 100%;
@@ -76,16 +76,16 @@ const upLimit = () => {
   .moveContainer {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 1rem;
     width: 100%;
 
     .abilities,
     .moves {
       display: flex;
       flex-wrap: wrap;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       text-align: center;
       width: 100%;
@@ -105,6 +105,13 @@ const upLimit = () => {
 
       .move.more {
         cursor: pointer;
+        background-image: linear-gradient(
+            to bottom,
+            rgb(rgb(156, 156, 156), 0.4),
+            rgb(rgb(156, 156, 156), 0.4)
+          ),
+          linear-gradient(to bottom, v-bind(color), v-bind(color));
+        color: v-bind(fontColor);
       }
 
       .ability {

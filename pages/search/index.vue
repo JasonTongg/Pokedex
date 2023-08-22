@@ -105,7 +105,6 @@ const changeDetail = (id: number) => {
       padding: 1rem;
       cursor: pointer;
       gap: 1rem;
-      max-width: 200px;
 
       img {
         width: 80%;
