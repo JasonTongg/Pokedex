@@ -10,7 +10,7 @@
         @click="changeDetail(pokemon.id)"
         :key="index"
       >
-        <h2>{{ pokemon.name.split("-").join(" ") }}</h2>
+        <h2>{{ pokemon?.name?.split("-")?.join(" ") }}</h2>
         <img
           :src="pokemon.sprites?.other['official-artwork'].front_default"
           alt=""
@@ -45,6 +45,8 @@ const allPokemons = computed<{ results: [{ name: string; url: string }] }>(
     return store.getters.getAllPokemons;
   }
 );
+
+console.log(pokemons.value);
 
 const search = ref<string>("");
 const filterPokemon = ref<Array<{ name: string; url: string }>>();

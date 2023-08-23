@@ -76,9 +76,8 @@ export const store = createStore({
   },
   actions: {
     async getDetailPokemon(context, payload) {
-      let rawData = await fetch(payload ? payload : `https://pokeapi.co/api/v2/pokemon/${context.state.detail}`);
-      let data = await rawData.json();
-      context.commit("setDetailPokemon", data);
+      let {data} = await useFetch(payload ? payload : `https://pokeapi.co/api/v2/pokemon/${context.state.detail}`);
+      context.commit("setDetailPokemon", data.value);
       context.dispatch("getPokemonSpecies");
     },
     async getPokemonSpecies(context) {
@@ -116,9 +115,8 @@ export const store = createStore({
       })
     },
     async getEvolutionPokemon(context, payload) {
-      let rawData = await fetch(`https://pokeapi.co/api/v2/pokemon/${payload}`);
-      let data = await rawData.json();
-      context.commit("addEvolutionPokemon", data);
+      let {data} = await useFetch(`https://pokeapi.co/api/v2/pokemon/${payload}`);
+      context.commit("addEvolutionPokemon", data.value);
     },
     async getPokemons(context) {
       if (context.state.pokemons.length <= 0) {
@@ -135,9 +133,8 @@ export const store = createStore({
       }
     },
     async getPokemon(context, payload) {
-      let rawData = await fetch(payload);
-      let data = await rawData.json();
-      context.commit("addPokemons", data);
+      let {data} = await useFetch(payload);
+      context.commit("addPokemons", data.value);
     }
   }
 })
